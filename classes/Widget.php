@@ -100,6 +100,11 @@ class Widget {
 		return self::get_file_by_id(self::get_id_by_name($name));
 	}
 
+	public static function file_exists($id)
+	{
+		return is_file(APPPATH . 'views/' . self::get_file_by_id($id) . EXT);
+	}
+
 	public static function factory($name, $data = NULL)
 	{
 		return View::factory(self::get_file_by_name($name), $data);

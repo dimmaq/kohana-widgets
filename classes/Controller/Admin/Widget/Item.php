@@ -48,7 +48,10 @@ class Controller_Admin_Widget_Item extends Controller_Admin_Widget {
 			if ($item)
 			{
 				$form['name'] = $item['name'];
-				$form['text'] = View::factory(Widget::get_file_by_id($id));
+				if (Widget::file_exists($id))
+					$form['text'] = View::factory(Widget::get_file_by_id($id));
+				else
+					$form['text'] = '';
 			}
 			else
 			{
