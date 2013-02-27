@@ -75,8 +75,8 @@ class Widget {
 			throw $E;
 		}
 		$file = Widget::get_file_by_id($id);
-		$efile .= '.raw';
-		$xfile .= EXT;
+		$efile = $file . '.raw';
+		$xfile = $file . EXT;
 		@rename($efile, $file . '.bak');
 		@file_put_contents($efile, $text);
 		@file_put_contents($xfile, Redactor::html2php($text));

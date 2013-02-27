@@ -10,7 +10,7 @@
 		</tr>
 		<tr>
 			<td class="form-desc">
-				<label for="name">Уникольное имя<i class="form-required">*</i><br /><i class="form-hint"></i></label>
+				<label for="name">Уникальное имя<i class="form-required">*</i><br /><i class="form-hint"></i></label>
 				<div class="form-error"><? echo Arr::get($errors, 'name'); ?></div>
 			</td>
 			<td><?=Form::input('name', Arr::get($form, 'name'), array('id' => 'name','required'=>'required'));?></td>
