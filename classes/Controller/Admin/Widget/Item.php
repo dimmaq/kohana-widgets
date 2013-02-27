@@ -7,7 +7,6 @@ class Controller_Admin_Widget_Item extends Controller_Admin_Widget {
 		Assets::add_redactor();
 		//---
 		$id = $this->request->param('id', NULL);
-		$data = array();
 		$errors = array();
 		$form = array();
 		//---
@@ -47,11 +46,7 @@ class Controller_Admin_Widget_Item extends Controller_Admin_Widget {
 			$item = Widget::load($id);
 			if ($item)
 			{
-				$form['name'] = $item['name'];
-				if (Widget::file_exists($id))
-					$form['text'] = View::factory(Widget::get_file_by_id($id));
-				else
-					$form['text'] = '';
+				$form = $item;
 			}
 			else
 			{

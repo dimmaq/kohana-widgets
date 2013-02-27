@@ -74,9 +74,12 @@ class Widget {
 		catch (Exception $E) {
 			throw $E;
 		}
-		$file = APPPATH . 'views/' . self::get_file_by_id($id) . EXT;
-		@rename($file, $file . '.bak');
-		@file_put_contents($file, $text);
+		$file = Widget::get_file_by_id($id);
+		$efile .= '.raw';
+		$xfile .= EXT;
+		@rename($efile, $file . '.bak');
+		@file_put_contents($efile, $text);
+		@file_put_contents($xfile, Redactor::html2php($text));
 		//---
 		return TRUE;
 	}
@@ -84,30 +87,27 @@ class Widget {
 	public static function load($id)
 	{
 		$res = DB::select()->from(self::TABLE_NAME)->where('id', '=', $id)->limit(1)->execute()->as_array();
-		if ($res)
-			return $res[0];
-		else
+		if (!$res)
 			return FALSE;
+		//---
+		$item = $res[0];
+		$item['text'] = @file_get_contents(Widget::get_file_by_id($item['id']) . '.raw');
+		return $item;
 	}
 
-	public static function get_file_by_id($id)
+	public static function get_view_by_id($id)
 	{
 		return self::VIEW_PATH . $id;
 	}
 
-	public static function get_file_by_name($name)
+	public static function get_file_by_id($id)
 	{
-		return self::get_file_by_id(self::get_id_by_name($name));
-	}
-
-	public static function file_exists($id)
-	{
-		return is_file(APPPATH . 'views/' . self::get_file_by_id($id) . EXT);
+		return APPPATH . 'views/' . self::get_view_by_id($id);
 	}
 
 	public static function factory($name, $data = NULL)
 	{
-		return View::factory(self::get_file_by_name($name), $data);
+		return View::factory(self::get_view_by_id(self::get_id_by_name($name)), $data);
 	}
 
 
