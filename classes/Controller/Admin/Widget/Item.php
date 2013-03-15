@@ -3,7 +3,7 @@
 class Controller_Admin_Widget_Item extends Controller_Admin_Widget {
 
 	private function _add_edit($action) {
-		Assets::css('admin-form-add-edit', '/static/css/admin/form-add-edit.css');
+		Assets::css('admin-form-add-edit', '/static/less/admin/form-add-edit.less', NULL, array('rel' => 'stylesheet/less'));
 		Assets::add_redactor();
 		//---
 		$id = $this->request->param('id', NULL);
