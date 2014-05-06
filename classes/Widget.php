@@ -37,7 +37,7 @@ class Widget {
 	private static function get_id_by_name($name)
 	{
 		$res = DB::select('id')->from(self::TABLE_NAME)->where('name', '=', $name)->limit(1)->execute();
-		return $res->get('id');;
+		return $res->get('id');
 	}
 
 	public static function save($data, $id = NULL)
@@ -97,7 +97,7 @@ class Widget {
 
 	public static function get_view_by_id($id)
 	{
-		return self::VIEW_PATH . $id;
+		return self::VIEW_PATH . ($id ? $id : 'notfound');
 	}
 
 	public static function get_file_by_id($id)
@@ -107,7 +107,16 @@ class Widget {
 
 	public static function factory($name, $data = NULL)
 	{
-		return View::factory(self::get_view_by_id(self::get_id_by_name($name)), $data);
+		$id = self::get_id_by_name($name);
+		$view = self::get_view_by_id($id);
+		//---
+		//if (!$data)
+		//	$data = array();
+		$data['_widget_name'] = $name;
+		$data['_widget_id'] = $id;
+		$data['_widget_view'] = $view;
+		//---
+		return View::factory($view, $data);
 	}
 
 
